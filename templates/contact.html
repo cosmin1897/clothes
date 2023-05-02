@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Request Contact{% endblock %}
+{% block content %}
+    <div class="d-flex justify-content-center p-2">
+        <div class="col-lg-4 col-sm-6 col-12">
+            <h1>Contact</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Request Contact</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <main class="mt-5 pt-4">
+        <div class="container dark-grey-text mt-5">
+
+            <!--Grid row-->
+            <div class="row wow fadeIn">
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                    <img src="{{ object.get_image }}"
+                         class="img-fluid" alt="">
+
+                </div>
+                <!--Grid column-->
+
+                <!--Grid column-->
+                <div class="col-md-6 mb-4">
+
+                    <!--Content-->
+                    <div class="p-4">
+
+                        <div class="mb-3">
+                            <a href="">
+                                <span class="badge purple mr-1">{{ item.get_category_display }}</span>
+                            </a>
+                        </div>
+
+                        <p class="lead">
+                        <h5>Item's price</h5>
+                        <h3>{{ item.price }} EUR</h3>
+                        </p>
+
+                        <p class="lead font-weight-bold">About</p>
+
+                        <p>{{ object.description }}</p>
+
+                        <div>
+
+                            <a href="{{ item.get_add_to_cart_url }}"class="btn btn-outline-secondary add-btn" style="background: bisque;" >ADD TO CART</a>
+{#                        <button class="btn btn-outline-secondary add-btn" style="background: bisque;">Add to Cart</button>#}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+{% endblock content %}

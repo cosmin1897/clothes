@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Luxury&Oppulence {% endblock %}
+
+{% block content %}
+
+{% include 'products_block.html' with title=category.name product_list=category.items %}
+
+{% endblock %}

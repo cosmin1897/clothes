@@ -1,0 +1,28 @@
+
+    <div class="title" style="padding: 1%">
+        <h2 style='padding-left: 1%'>{{ title }}</h2>
+    </div>
+
+    <div class="row">
+        {% for item in product_list %}
+            <div class="col-12 col-sm-6 col-md-3 col-lg-2" style="margin: .5%">
+
+                <div class="card">
+                    <a class="btn" href="{{ item.get_absolute_url }}">
+                        <img class="card-img-top" src="{{ item.get_image }}" alt="Card image cap">
+                        <div class="card-body" style="color: black">
+                            {#                        <a href="{% url 'shop_mag:product_details, slug' %}"></a>#}
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <hr>
+                            <h4 style="display: inherit"><strong>{{ item.price }}EUR</strong></h4>
+                            <button type="button" class="btn btn-primary">Add to cart</button>
+
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+        {% endfor %}
+    </div>
