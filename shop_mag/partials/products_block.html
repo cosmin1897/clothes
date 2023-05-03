@@ -1,0 +1,22 @@
+<h2>{{ title }}</h2>
+<hr/>
+<div class="row">
+
+    {% for item in product_list %}
+        <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+            <a class="btn" href="{% url 'shop_mag:product_details' item.id %}">
+                <div class="card col-12">
+{#                    <img src="{{ item.image.url }}" class="card-img-top" alt="...">#}
+                    <img src="{{ item.image.url }}" class="col-12" style="height: 300px; object-fit: cover" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                    </div>
+                    <ul class="list-group-flush">
+                        <li class="list-group-item">Price: {{ item.price }}</li>
+                    </ul>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

@@ -39,9 +39,15 @@
                         <p>{{ object.description }}</p>
 
                         <div>
-
-                            <a href="{{ item.get_add_to_cart_url }}"class="btn btn-outline-secondary add-btn" style="background: bisque;" >ADD TO CART</a>
-{#                        <button class="btn btn-outline-secondary add-btn" style="background: bisque;">Add to Cart</button>#}
+                            <form action="{% url 'shop_mag:add_product_to_cart' %}" method="post">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="1">
+                                <input type="hidden" name="item_id" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-outline-secondary add-btn"
+                                        style="background: bisque;">ADD TO CART
+                                </button>
+                            </form>
+                            {#                        <button class="btn btn-outline-secondary add-btn" style="background: bisque;">Add to Cart</button>#}
                         </div>
 
                     </div>

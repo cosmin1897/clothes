@@ -1,12 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView, TemplateView
 
 from .forms import ContactRequestForm, UserForm, UserUpdateForm
 from .models import *
@@ -42,10 +40,16 @@ class ItemDetailView(DeleteView):
     template_name = "product_detailts.html"
 
 
-class Cart(DetailView):
-    model = OrderItem, Order
+class CartDetailView(DetailView):
+    model = Cart
     context_object_name = "order_item"
     template_name = "order.html"
+
+
+class CategoryDetails(DetailView):
+    model = Category
+    context_object_name = 'category'
+    template_name = 'category_details.html'
 
 
 class MyLoginView(LoginView):
@@ -56,17 +60,36 @@ class MyLoginView(LoginView):
         return reverse_lazy('shop_mag:home')
 
 
-class CategoryDetails(DetailView):
-    model = Category
-    context_object_name = 'category'
-    template_name = 'category_details.html'
+# class HomeView(TemplateView):
+#     template_name = 'home.html'
 
 
-class ContactRequestCreateView(CreateView):
-    model = ContactRequest
-    form_class = ContactRequestForm
-    template_name = 'contact.html'
-    success_url = reverse_lazy('home')
+class SearchListView(ListView):
+    model = Item
+    template_name = 'search_results.html'
+    context_object_name = 'product_list'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['q'] = self.request.GET.get('q')
+        return context
+
+    def get_queryset(self):
+        return Item.objects.filter(name__icontains=self.request.GET.get('q'))
+
+
+def get_open_cart(request):
+    open_cart = Cart.objects.filter(user=request.user, status='open').first()
+    if open_cart is None:
+        open_cart = Cart.objects.create(user=request.user, status='open')
+    return open_cart
+
+
+@login_required
+def open_cart_view(request):
+    cart: Cart = get_open_cart(request)
+    print(f'cart={cart}')
+    return render(request, 'order.html', {'cart': cart})
 
 
 class UserCreateView(CreateView):
@@ -81,67 +104,27 @@ class UserUpdateView(UpdateView):
     form_class = UserUpdateForm
     template_name = 'user_profile.html'
 
-
-def order(request):
-    # print(request.META)
-    context = {}
-    return render(request, "order.html", context)
-
-
-# def cart(request):
-#     if request.user.is_authenticated:
-#         customer = request.user.customer
-
-
-def checkout(request):
-    context = {}
-    return render(request, 'checkout.html', context)
-
-
-def get_open_cart(request):
-    open_cart = Order.objects.get_or_create(user=request.user)
-    # open_cart = Order.objects.filter().first()
-    # if open_cart is None:
-    print(open_cart)
-    #     open_cart = Order.objects.create(user=request.user, ordered_date=None)
-    return open_cart
-
-
-@login_required()
-def open_cart_view(request):
-    cart: Cart = get_open_cart(request)
-    print(f'cart={cart}')
-    return render(request, 'order.html', {'cart': cart})
-
-
 @login_required
-def add_to_cart(request, slug):
-    item = get_object_or_404(Item, slug=slug)
-    order_qs = get_open_cart(request)
+def add_product_to_cart(request):
+    if request.method == 'POST':
+        item_id = request.POST.get('item_id')
+        quantity = request.POST.get('quantity', 1)
 
-    order = order_qs[0]
-    order_item, created = OrderItem.objects.get_or_create(item=item, order=order)
-    # check if the order item is in the order
-    if order.items.filter(item__slug=item.slug).first() is not None:
-        order_item.quantity += 1
-        order_item.save()
-        # messages.info(request, "This item quantity was updated.")
-        return redirect("shop_mag:order")
-    else:
-        order.items.add(order_item)
-        # messages.info(request, "This item was added to your cart.")
-        return redirect("shop_mag:order")
-    # else:
-    #     ordered_date = timezone.now()
-    #     order = Order.objects.create(
-    #         user=request.user, ordered_date=ordered_date)
-    #     order.items.add(order_item)
-    #     # messages.info(request, "This item was added to your cart.")
-    #     return redirect("shop_mag:order")
+        open_cart = get_open_cart(request)
+
+        existing_cart_item = CartItem.objects.filter(item_id=item_id, cart=open_cart).first()
+        if existing_cart_item is None:
+            existing_cart_item = CartItem.objects.create(item_id=item_id, cart=open_cart, quantity=quantity)
+        else:
+            existing_cart_item.quantity += int(quantity)
+            existing_cart_item.save()
+        if int(existing_cart_item.quantity) <= 0:
+            existing_cart_item.delete()
+    return redirect(request.META['HTTP_REFERER'])
 
 
-def register(request):
-    form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
-
-
+class ContactRequestCreateView(CreateView):
+    model = ContactRequest
+    form_class = ContactRequestForm
+    template_name = 'contact.html'
+    success_url = reverse_lazy('home')
