@@ -45,7 +45,7 @@
                                 {#                <a href="{% url 'shop_mag:add_product_to_cart' cart_item.item.pk %}"><i class="fas fa-plus ml-2"></i></a>#}
                             </td>
                             <td>
-                                {{ cart_item.total }}EUR
+                                {{ cart_item.total }}EURR
                                 <form action="{% url 'shop_mag:add_product_to_cart' %}" method="post">
                                     {% csrf_token %}
                                     <input type="hidden" name="quantity" value="-{{ cart_item.quantity }}">
