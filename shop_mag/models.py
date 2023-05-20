@@ -65,6 +65,25 @@ class Item(models.Model):
         return url
 
 
+class ProductSize(models.Model):
+    SIZES = (
+        ('extra small', 'XS'),
+        ('small', 'S'),
+        ('medium', 'M'),
+        ('large', 'L'),
+        ('extra large', 'XL'),
+        ('extra extra large', 'XXL'),
+    )
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    size = models.CharField(max_length=20, choices=SIZES)
+    stock = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    def __str__(self):
+        return f'{self.product} {self.size}'
+
+
+
+
 class Cart(models.Model):
     STATUS = (
         ("open", "Open"),

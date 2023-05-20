@@ -4,7 +4,7 @@ from django.contrib.auth.views import LoginView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView, TemplateView
+from django.views.generic import ListView, DeleteView, DetailView, CreateView, UpdateView, RedirectView
 
 from .forms import ContactRequestForm, UserForm, UserUpdateForm
 from .models import *
@@ -42,7 +42,7 @@ class ItemDetailView(DeleteView):
 
 class CartDetailView(DetailView):
     model = Cart
-    context_object_name = "order_item"
+    context_object_name = "order_i2tem"
     template_name = "order.html"
 
 
@@ -67,7 +67,7 @@ class MyLoginView(LoginView):
 class SearchListView(ListView):
     model = Item
     template_name = 'search_results.html'
-    context_object_name = 'product_list'
+    context_object_name = 'products'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
@@ -85,7 +85,7 @@ def get_open_cart(request):
     return open_cart
 
 
-@login_required
+@login_required(login_url=reverse_lazy('login'))
 def open_cart_view(request):
     cart: Cart = get_open_cart(request)
     print(f'cart={cart}')
@@ -103,6 +103,7 @@ class UserUpdateView(UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = 'user_profile.html'
+
 
 @login_required
 def add_product_to_cart(request):
@@ -127,4 +128,11 @@ class ContactRequestCreateView(CreateView):
     model = ContactRequest
     form_class = ContactRequestForm
     template_name = 'contact.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('shop_mag:home')
+
+
+class CustomLogoutView(RedirectView):
+    url = reverse_lazy('login')
+
+    def get(self, request, *args, **kwargs):
+        return CustomLogoutView.as_view()(request, *args, **kwargs)

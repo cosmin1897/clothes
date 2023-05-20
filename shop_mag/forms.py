@@ -1,5 +1,4 @@
 from django import forms
-from shop_mag.models import *
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django.contrib.auth.models import User
 
@@ -9,9 +8,22 @@ from shop_mag.models import ContactRequest
 class UserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'password1', 'password2', ]
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', ]
         widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Please enter your user name"})}
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Please enter your user name"}),
+            'first_name': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': "Please enter your first name"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Please enter your last name"}),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control', 'placeholder': "Please enter your email address"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': "Please enter your password"})
+        self.fields['password2'].widget.attrs.update(
+            {'class': 'form-control', 'placeholder': "Please enter your password"})
 
 
 class UserUpdateForm(forms.ModelForm):
@@ -21,9 +33,9 @@ class UserUpdateForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': "Please enter your first name"}),
-            'second_name': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': "Please enter your second name"}),
-            'email_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Please enter your email"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Please enter your last name"}),
+            'email': forms.EmailInput(
+                attrs={'class': 'form-control', 'placeholder': "Please enter your email address"}),
         }
 
 

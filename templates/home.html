@@ -4,7 +4,8 @@
 {% block title %} Luxury&Oppulence {% endblock %}
 
 {% block content %}
-
-    {% include 'products_block.html' with title='Here is the list of items' product_list=lista_produse %}
+    <body style="background-image: url('{% static 'blurata.jpg' %}'); text-align: center; font-family: cursive">
+    {% include 'products_block.html' with title='Anything for you!' product_list=lista_produse %}
 
 {% endblock %}
+</body>
