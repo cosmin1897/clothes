@@ -82,8 +82,6 @@ class ProductSize(models.Model):
         return f'{self.product} {self.size}'
 
 
-
-
 class Cart(models.Model):
     STATUS = (
         ("open", "Open"),
@@ -99,7 +97,7 @@ class Cart(models.Model):
         return f'{self.status} cart of {self.user.username}'
 
     def total(self):
-        return sum([c.total() for c in self.cart_items()])
+        return round(sum([c.total() for c in self.cart_items()]), 2)
 
 
 class CartItem(models.Model):
@@ -111,7 +109,8 @@ class CartItem(models.Model):
         return f'{self.quantity} X {self.item} in {self.cart}'
 
     def total(self):
-        return self.item.price * self.quantity
+        price = self.item.price * self.quantity
+        return round(price, 2)
 
 
 class ContactRequest(models.Model):

@@ -77,8 +77,9 @@
                         </tr>
                         <tr>
                             <td colspan="5">
-                                <a class='btn btn-warning float-right ml-2' href='/checkout/'>Proceed to checkout</a>
-                                <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
+                                <a class="btn btn-warning float-right ml-2" href="{% url 'shop_mag:close-cart' %}">Proceed
+                                    to checkout</a>
+                                <a class='btn btn-primary float-right' href="{% url 'shop_mag:home' %}">Continue shopping</a>
                             </td>
                         </tr>
                     {% endif %}

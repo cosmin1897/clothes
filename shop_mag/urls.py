@@ -17,5 +17,6 @@ urlpatterns = [
     # path('logout/', views.CustomLogoutView.as_view(), name='logout'),
     path('add-product-to-cart/', views.add_product_to_cart, name='add_product_to_cart'),
     path('update-profile/<int:pk>', views.UserUpdateView.as_view(), name='update_profile'),
+    path('close-cart/', views.checkout_view, name='close-cart'),
 
 ]

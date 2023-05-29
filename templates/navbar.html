@@ -1,8 +1,8 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark text-bg-dark";>
+<nav class="navbar navbar-expand-lg navbar-dark text-bg-dark" ;>
     <div class="container-fluid">
 
-        <a class="navbar-brand"  href="{% url 'shop_mag:home' %}">Luxury&Oppulence</a>
+        <a class="navbar-brand" href="{% url 'shop_mag:home' %}">Luxury&Oppulence</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -36,6 +36,7 @@
                     <a class="nav-link" href="{% url 'shop_mag:contact' %}">Contact</a>
                 </li>
 
+
             </ul>
             <form class="d-flex" role="search" action="{% url 'shop_mag:search' %}">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="q"
@@ -46,45 +47,56 @@
                 <a class="btn" href="{% url 'shop_mag:contact' %}">
                     <img src="{% static 'icons/contact.svg' %}">
                 </a>
+                <a class="btn" href="{% url 'shop_mag:cart' %}">
+                    <img src="{% static 'icons/cart.svg' %}">
+                </a>
                 <div class="btn-group">
-                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                    <img width="24" height="24" src="{% static 'icons/person-fill.svg' %}" alt="">
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    {% if request.user.is_authenticated %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'password_change' %}">
-                                <img width="24" height="24" src="{% static 'icons/password_reset.svg' %}" alt="#">
-                                Change password
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'logout' %}">
-                                <img width="24" height="24" src="{% static 'icons/logout.svg' %}" alt="#">
-                                Logout
-                            </a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a class="dropdown-item" href="{% url 'shop_mag:register' %}">
-                                <img width="24" height="24" src="{% static 'icons/register.svg' %}" alt="#">
-                                Register
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'login' %}">
-                                <img width="24" height="24" src="{% static 'icons/login.svg' %}" alt="#">
-                                Login
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{% url 'password_reset' %}">
-                                <img width="24" height="24" src="{% static 'icons/password_reset.svg' %}" alt="#">
-                                Reset password
-                            </a>
-                        </li>
-                {% endif %}
+                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        <img width="24" height="24" src="{% static 'icons/person-fill.svg' %}" alt="">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        {% if request.user.is_authenticated %}
+                            {#                            <li>#}
+                            {#                            <a class="dropdown-item" href="{% url 'shop_mag:cart' %}">#}
+                            {#                                    <img width="24" height="24" src="{% static 'icons/password_reset.svg' %}" alt="#">#}
+                            {#                                    CurrentCart#}
+                            {#                            </a>#}
+                            {#                            </li>#}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'password_change' %}">
+                                    <img width="24" height="24" src="{% static 'icons/password_reset.svg' %}" alt="#">
+                                    Change password
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'logout' %}">
+                                    <img width="24" height="24" src="{% static 'icons/logout.svg' %}" alt="#">
+                                    Logout
+                                </a>
+                            </li>
+                        {% else %}
+                            <li>
+                                <a class="dropdown-item" href="{% url 'shop_mag:register' %}">
+                                    <img width="24" height="24" src="{% static 'icons/register.svg' %}" alt="#">
+                                    Register
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'login' %}">
+                                    <img width="24" height="24" src="{% static 'icons/login.svg' %}" alt="#">
+                                    Login
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{% url 'password_reset' %}">
+                                    <img width="24" height="24" src="{% static 'icons/password_reset.svg' %}" alt="#">
+                                    Reset password
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
             </form>
         </div>
     </div>

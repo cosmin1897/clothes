@@ -136,3 +136,12 @@ class CustomLogoutView(RedirectView):
 
     def get(self, request, *args, **kwargs):
         return CustomLogoutView.as_view()(request, *args, **kwargs)
+
+
+def checkout_view(request):
+    cart = get_open_cart(request)
+    cart.status = 'closed'
+    cart.save()
+    return redirect(request.META['HTTP_REFERER'])
+
+
