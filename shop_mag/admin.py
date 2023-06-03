@@ -8,3 +8,4 @@ admin.site.register(Item)
 admin.site.register(Cart)
 admin.site.register(CartItem)
 admin.site.register(Category)
+

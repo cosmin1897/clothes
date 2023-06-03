@@ -20,7 +20,9 @@
                     {% for cart_item in cart.cart_items %}
                         <tr>
                             <th scope="row">{{ forloop.counter }}</th>
-                            <td>{{ cart_item.item.image.url }}</td>
+                            <td>
+                                <img style="width: 15%; height: 15%" src="{{ cart_item.item.photo.url }}" alt="#">
+                            </td>
                             <td>{{ cart_item.item.price }}</td>
                             <td>
                                 <form action="{% url 'shop_mag:add_product_to_cart' %}" method="post">
@@ -76,13 +78,14 @@
                             <td><b>${{ cart.total }}EUR</b></td>
                         </tr>
                         <tr>
-                            <td colspan="5">
-                                <a class="btn btn-warning float-right ml-2" href="{% url 'shop_mag:close-cart' %}">Proceed
-                                    to checkout</a>
-                                <a class='btn btn-primary float-right' href="{% url 'shop_mag:home' %}">Continue shopping</a>
-                            </td>
-                        </tr>
+                        <td colspan="5">
+                        <a class="btn btn-warning float-right ml-2" href="{% url 'shop_mag:close-cart' %}">Proceed
+                            to checkout</a>
                     {% endif %}
+
+                    <a class='btn btn-primary float-right' href="{% url 'shop_mag:home' %}">Continue shopping</a>
+                    </td>
+                    </tr>
                     </tbody>
                 </table>
 

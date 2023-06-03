@@ -96,9 +96,15 @@ class Cart(models.Model):
     def __str__(self):
         return f'{self.status} cart of {self.user.username}'
 
+
     def total(self):
         return round(sum([c.total() for c in self.cart_items()]), 2)
 
+
+    @staticmethod
+    def get_orders_by_customer(user_id):
+        products = Cart.objects.filter(user=user_id).order_by('-date')
+        print(products)
 
 class CartItem(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -113,6 +119,10 @@ class CartItem(models.Model):
         return round(price, 2)
 
 
+    # @staticmethod
+    # def get_orders_by_customer(customer_id):
+    #     return CartItem.objects.filter(customer=customer_id).order_by('-date')
+
 class ContactRequest(models.Model):
     name = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=25)
@@ -121,8 +131,13 @@ class ContactRequest(models.Model):
     message = models.TextField()
 
 
+
+
+
 @receiver(post_save, sender=ContactRequest)
 def contact_request_save(sender, instance, created, *args, **kwargs):
     if created:
         send_mail('New contact request', f'Contact requested: {instance}', settings.EMAIL_HOST_USER,
                   [settings.EMAIL_HOST_USER])
+
+
