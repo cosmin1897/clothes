@@ -1,4 +1,4 @@
-from shop_mag.models import Category
+from .models import Category
 
 
 def navbar_data(request):

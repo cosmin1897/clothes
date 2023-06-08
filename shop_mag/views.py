@@ -1,3 +1,6 @@
+from abc import ABC
+
+import stripe
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LoginView
@@ -17,7 +20,7 @@ from .models import *
 #     items = Item.objects.all()
 #     return render(request, "home.html", items)
 
-class RedirectClassMix(UserPassesTestMixin):
+class RedirectClassMix(UserPassesTestMixin, ABC):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.has_permission():
@@ -89,7 +92,13 @@ def get_open_cart(request):
 def open_cart_view(request):
     cart: Cart = get_open_cart(request)
     print(f'cart={cart}')
-    return render(request, 'order.html', {'cart': cart})
+    #stripe
+    total = 0
+    stripe.api_key = settings.SECRET_KEY
+    stripe_total = int(total * 100)
+    description = 'ShopMag - New order'
+    data_key = settings.STRIPE_PUBLISHABLE_KEY
+    return render(request, 'order.html', dict(cart=cart, total=total, data_key=data_key, stripe_total=stripe_total))
 
 
 class UserCreateView(CreateView):
@@ -143,5 +152,3 @@ def checkout_view(request):
     cart.status = 'closed'
     cart.save()
     return redirect(request.META['HTTP_REFERER'])
-
-

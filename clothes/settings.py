@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop_mag.apps.ShopMagConfig',
+    'stripe',
 
 ]
 
@@ -122,6 +123,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -136,3 +138,8 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'smy.by.cos@gmail.com'
 EMAIL_HOST_PASSWORD = 'lnvezcgitxyobryh'
+
+
+#stripe
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51NFZkcJ2dHoCAI290kMjLEJNzYaB5yT3hVPNdIQwSZTsNBGzBkbmbVxS6gtgKqCgN94it9yVp1gnl7ebZsyjxVif00gVkmeCMl'
+STRIPE_SECRET_KEY = 'sk_test_51NFZkcJ2dHoCAI29Q2chji8tjBldE9S22iIQ7UuaXG2Crdj8MkxsULyrwqd8N0UKGOCfXdvPCxPrlK493JfCilfL00zwCK3QIW'

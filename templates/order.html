@@ -1,3 +1,5 @@
+#CART TEMPLATE
+
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
@@ -65,11 +67,7 @@
                         <tr>
                             <td colspan='5'>Your cart is empty</td>
                         </tr>
-                        <tr>
-                            <td colspan="5">
-                                <a class='btn btn-primary float-right' href='/'>Continue shopping</a>
-                            </td>
-                        </tr>
+
                     {% endfor %}
 
                     {% if cart.cart_items %}
@@ -77,14 +75,35 @@
                             <td colspan="4"><b>Order Total</b></td>
                             <td><b>${{ cart.total }}EUR</b></td>
                         </tr>
+                        {#                        <tr>#}
+                        {#                        <td colspan="5">#}
+                        {#                        <a class="btn btn-warning float-right ml-2" href="{% url 'shop_mag:close-cart' %}">Proceed#}
+                        {#                            to checkout</a>#}
+                        {#                        </td>#}
+                        {#                        </tr>#}
                         <tr>
-                        <td colspan="5">
-                        <a class="btn btn-warning float-right ml-2" href="{% url 'shop_mag:close-cart' %}">Proceed
-                            to checkout</a>
+                        <td>
+                            <form class="" action="" method="POST">
+                                <a href="{% url 'shop_mag:close-cart' %}"></a>
+                                {% csrf_token %}
+                                <script src="https://checkout.stripe.com/checkout.js"
+                                        class="stripe-button"
+                                        data-key="{{ data_key }}"
+                                        data-amount="{{ stripe_total }}"
+                                        data-name="Z-Store"
+                                        data-description="{{ description }}"
+                                        data-locale="auto"
+                                        data-currency="usd"
+                                        data-shipping-address="true"
+                                        data-billing-address="true"
+                                        data-zip-code="true">
+                                </script>
+                            </form>
+                        </td>
                     {% endif %}
 
                     <a class='btn btn-primary float-right' href="{% url 'shop_mag:home' %}">Continue shopping</a>
-                    </td>
+                    </tr>
                     </tr>
                     </tbody>
                 </table>
