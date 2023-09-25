@@ -11,7 +11,6 @@
                     <a class="btn" href="{% url 'shop_mag:product_details' item.id %}">
                         <img class="card-img-top" src="{{ item.get_image }}" alt="Card image cap">
                         <div class="card-body" style="color: black">
-                            {#                        <a href="{% url 'shop_mag:product_details, slug' %}"></a>#}
                             <h5 class="card-title">{{ item.name }}</h5>
                             <hr>
                             <h4 style="display: inherit"><strong>{{ item.price }}EUR</strong></h4>
